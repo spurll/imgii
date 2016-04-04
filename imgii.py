@@ -4,6 +4,7 @@
 # Attribution-ShareAlike 4.0 International License.
 
 
+import argparse
 from imgii import image_to_ascii
 
 

@@ -30,7 +30,8 @@ By default, images are scaled to assume that output characters are twice as tall
 as they are wide (as this is true for most terminals). This can be undone by
 passing `scale=1`.
 
-Images from an external URL can also be displayed by passing `url=True`.
+Images from an external URL can also be displayed by passing `url=True`. (Any
+image identifier beginning with `http://` or `https://` is assumed to be a URL.)
 
 If you're displaying the image in a dark terminal with light text (that is to
 say: if you're not a monster), you may also want to pass `invert=True`.
