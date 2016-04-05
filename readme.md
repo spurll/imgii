@@ -33,8 +33,8 @@ passing `scale=1`.
 Images from an external URL can also be displayed by passing `url=True`. (Any
 image identifier beginning with `http://` or `https://` is assumed to be a URL.)
 
-If you're displaying the image in a dark terminal with light text (that is to
-say: if you're not a monster), you may also want to pass `invert=True`.
+If you're displaying the image in a light terminal with dark text (that is to
+say: if you're a monster), you may also want to pass `invert=True`.
 
 ```python
 >>> image = image_to_ascii('http://cdn-01.belfasttelegraph.co.uk/incoming/article31552045.ece/82fe0/ALTERNATES/w620/US%20Monkey%201550.jpg', invert=True, url=True)

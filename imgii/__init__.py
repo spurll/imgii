@@ -6,11 +6,16 @@ import requests
 from PIL import Image
 
 
-CHARS = '%@#*+=-:. '
-N_CHARS = len(CHARS)
+CHARS = ' .-=;+*#@%'
 
 
-def image_to_ascii(image_file, width=80, scale=2, invert=False, url=False):
+def image_to_ascii(
+    image_file, width=80, scale=2, invert=False, url=False, chars=None
+):
+    if chars is None:
+        chars = CHARS
+    n_chars = len(chars)
+
     # Try to guess if the file is a URL, in case the user was just lazy.
     url = url or image_file.startswith(('http://', 'https://'))
 
@@ -33,7 +38,7 @@ def image_to_ascii(image_file, width=80, scale=2, invert=False, url=False):
         if (i > 0) and (i % width == 0):
             text.append('\n')
 
-        index = int(pixel * N_CHARS / 256)
-        text.append(CHARS[index if not invert else N_CHARS - 1 - index])
+        index = int(pixel * n_chars / 256)
+        text.append(chars[index if not invert else n_chars - 1 - index])
 
     return "".join(text)

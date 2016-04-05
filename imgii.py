@@ -15,7 +15,9 @@ if __name__=="__main__":
                         type=int, default=80)
     parser.add_argument('-s', '--vertical-scale', help='The factor to use when'
                         ' scaling to account for rectangular ASCII characters.'
-                        ' Defaults to 2.', type=int, default=2)
+                        ' Defaults to 2.', type=float, default=2)
+    parser.add_argument('-c', '--chars', help='The character set to use, from '
+                        'darkest to lightest.', default=None)
     parser.add_argument('-u', '--url', help='Interpret IMAGE as a URL instead '
                         'of a local file.', action='store_true')
     parser.add_argument('-i', '--invert', help='Invert the image.',
@@ -24,6 +26,7 @@ if __name__=="__main__":
 
     print(
         image_to_ascii(
-            args.image, args.width, args.vertical_scale, args.invert, args.url
+            args.image, args.width, args.vertical_scale, args.invert, args.url,
+            args.chars
         )
     )
