@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name='imgii',
-    version='0.1.3',
+    version='0.2',
     description='Very simple conversion of images to text.',
     url='https://github.com/spurll/imgii',
     author='Gem Newman',

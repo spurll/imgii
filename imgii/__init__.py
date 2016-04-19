@@ -14,10 +14,8 @@ BLOCKS = ' ░▒▓█'
 
 
 def image_to_ascii(
-    image_file, width=80, scale=2, invert=False, url=False, chars=None
+    image_file, width=80, scale=2, invert=False, url=False, chars=CHARS
 ):
-    if chars is None:
-        chars = CHARS
     n_chars = len(chars)
 
     # Try to guess if the file is a URL, in case the user was just lazy.
@@ -49,10 +47,6 @@ def image_to_ascii(
     return "".join(text)
 
 
-def image_to_blocks(image_file, width=80, scale=2, invert=False, url=False):
-    return image_to_ascii(image_file, width, scale, invert, url, BLOCKS)
-
-
 def main():
     parser = ArgumentParser(description='Converts images to ASCII.')
     parser.add_argument('image', help='The filename or URL of the image.')
@@ -62,22 +56,22 @@ def main():
                         ' scaling to account for rectangular ASCII characters.'
                         ' Defaults to 2.', type=float, default=2)
     parser.add_argument('-u', '--url', help='Interpret IMAGE as a URL instead '
-                        'of a local file.', action='store_true')
+                        'of as a local file. (If this flag is omitted, imgii '
+                        'will attempt to guess.)', action='store_true')
     parser.add_argument('-i', '--invert', help='Invert the image.',
                         action='store_true')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-c', '--chars', help='The character set to use, from '
-                        'darkest to lightest.', default=None)
-    group.add_argument('-b', '--blocks', help='Use block elements: ░▒▓█',
-                       action='store_true')
+                       'darkest to lightest. Default: {}%'.format(CHARS),
+                       default=CHARS)
+    group.add_argument('-b', '--blocks', help='Use the following Unicode block'
+                       ' elements: {}'.format(BLOCKS), action='store_true')
     args = parser.parse_args()
 
     print(
         image_to_ascii(
             args.image, args.width, args.vertical_scale, args.invert, args.url,
-            args.chars
-        ) if not args.blocks else image_to_blocks(
-            args.image, args.width, args.vertical_scale, args.invert, args.url
+            args.chars if not args.blocks else BLOCKS
         )
     )
 

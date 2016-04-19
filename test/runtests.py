@@ -6,7 +6,7 @@ import os, sys
 script_dir = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(script_dir, '..'))
 
-from imgii import image_to_ascii, image_to_block
+from imgii import image_to_ascii, BLOCKS
 
 
 test_dir = os.path.dirname(__file__)
@@ -36,28 +36,6 @@ class Tests(unittest.TestCase):
                 '@#+=',
                 '*+-.',
                 '+=. '
-            ])
-        )
-
-    def test_blocks(self):
-        self.assertEqual(
-            image_to_blocks(FACE, width=5, scale=1),
-            '\n'.join([
-                '     ',
-                ' █ █ ',
-                '     ',
-                ' ███ ',
-                '     '
-            ])
-        )
-
-        self.assertEqual(
-            image_to_blocks(GRADIENT, width=4, scale=1),
-            '\n'.join([
-                '██▓▒',
-                '█▓▒░',
-                '▓▒░ ',
-                '▒░  '
             ])
         )
 
@@ -105,6 +83,27 @@ class Tests(unittest.TestCase):
                 '5432',
                 '4321',
                 '3211'
+            ])
+        )
+
+        self.assertEqual(
+            image_to_chars(FACE, width=5, scale=1, chars=BLOCKS),
+            '\n'.join([
+                '     ',
+                ' █ █ ',
+                '     ',
+                ' ███ ',
+                '     '
+            ])
+        )
+
+        self.assertEqual(
+            image_to_chars(GRADIENT, width=4, scale=1, chars=BLOCKS),
+            '\n'.join([
+                '██▓▒',
+                '█▓▒░',
+                '▓▒░ ',
+                '▒░  '
             ])
         )
 

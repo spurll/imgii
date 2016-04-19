@@ -51,10 +51,13 @@ say: if you're a monster), you may also want to pass `invert=True`.
 Here's the relevant function declaration:
 
 ```python
-image_to_ascii(image_file, width=80, scale=2, invert=False, url=False)
+image_to_ascii(image_file, width=80, scale=2, invert=False, url=False, chars=CHARS)
 ```
 
-A command-line interface is also provided. Run `imgii.py --help` for details.
+Two character sets are available by default:
+
+1. `imgii.CHARS` is the default ASCII character set.
+2. `imgii.BLOCKS` is an alternate character set using a limited number of Unicode [block elements](https://en.wikipedia.org/wiki/Block_Elements).
 
 Bugs and Feature Requests
 =========================
@@ -67,7 +70,7 @@ Feature Requests
 Known Bugs
 ----------
 
-None
+* Not really a bug, but keep in mind that some common Terminal fonts don't fully support the Unicode block character set
 
 Other Tools
 ===========
