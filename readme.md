@@ -9,7 +9,7 @@ Usage
 Installation
 ------------
 
-Run `setup.py`.
+Run `setup.py install`.
 
 Requirements
 ------------
@@ -20,10 +20,18 @@ Requirements
 Basic Usage
 -----------
 
+In Python:
+
 ```python
 >>> from imgii import image_to_ascii
->>> image = image_to_ascii('Image.png')
+>>> image = image_to_ascii('image.png')
 >>> print(image)
+```
+
+From the console:
+
+```bash
+$ imgii image.png
 ```
 
 By default, images are scaled to assume that output characters are twice as tall
@@ -54,7 +62,6 @@ Bugs and Feature Requests
 Feature Requests
 ----------------
 
-* Add optional support for UTF-8 characters to provide better coverage
 * Add colour support
 
 Known Bugs
