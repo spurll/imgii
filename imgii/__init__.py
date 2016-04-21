@@ -6,14 +6,27 @@
 import requests
 from PIL import Image
 from argparse import ArgumentParser
+from colorama import Fore
 
 
 CHARS = ' .-=;+*#@%'
 BLOCKS = ' ░▒▓█'
 
+COLOR_MAP = {
+    (0, 0, 0): Fore.BLACK,
+    (1, 0, 0): Fore.RED,
+    (0, 1, 0): Fore.GREEN,
+    (0, 0, 1): Fore.BLUE,
+    (1, 1, 0): Fore.YELLOW,
+    (1, 0, 1): Fore.MAGENTA,
+    (0, 1, 1): Fore.CYAN,
+    (1, 1, 1): Fore.WHITE,
+}
+
 
 def image_to_ascii(
-    image_file, width=80, scale=2, invert=False, url=False, chars=CHARS
+    image_file, width=80, scale=2, invert=False, url=False, chars=CHARS,
+    color=False
 ):
     n_chars = len(chars)
 
@@ -29,11 +42,14 @@ def image_to_ascii(
     with Image.open(image_file) as image:
         x, y = image.size
         height = int(y * width / (x * scale))
-        image = image.resize((width, height)).convert('L')
+        image = image.resize((width, height))
+        greyscale = image.convert('L')
 
         text = []
-        pixels = list(image.getdata())
-        image.close()
+        pixels = greyscale.getdata()
+
+        if color:
+            colors = list(map(ansi_color, image.getdata()))
 
     # Assign a character to represent each pixel.
     for i, pixel in enumerate(pixels):
@@ -41,9 +57,25 @@ def image_to_ascii(
             text.append('\n')
 
         index = int(pixel * n_chars / 256)
+
+        if color and i > 0 and colors[i - 1] != colors[i]:
+            text.append(colors[i])
+
         text.append(chars[index if not invert else n_chars - 1 - index])
 
-    return "".join(text)
+    if color: text.append(Fore.RESET)
+
+    return ''.join(text)
+
+
+# Could perhaps be improved by using a blend of fore/back for ranges that fall
+# between the available ANSI colours.
+def ansi_color(rgb):
+    # Scale and round to determine which colours are primarily involved.
+    if max(rgb) > 0:
+        rgb = tuple(round(x / max(rgb)) for x in rgb)
+
+    return COLOR_MAP[rgb]
 
 
 def main():

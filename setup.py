@@ -7,14 +7,14 @@ from setuptools import setup
 setup(
     name='imgii',
     packages=['imgii'],
-    version='0.2.1',
+    version='0.3',
     description='Very simple conversion of images to text.',
     url='https://github.com/spurll/imgii',
-    download_url='https://github.com/spurll/imgii/tarball/0.2.1',
+    download_url='https://github.com/spurll/imgii/tarball/0.3',
     author='Gem Newman',
     author_email='spurll@gmail.com',
     license='MPL2',
-    install_requires=['requests', 'pillow'],
+    install_requires=['requests', 'pillow', 'colorama'],
     entry_points = {'console_scripts': ['imgii = imgii:main']},
     keywords=['ascii', 'image'],
     classifiers=[

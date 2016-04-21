@@ -24,6 +24,7 @@ Requirements
 
 * requests
 * pillow
+* colorama
 
 Basic Usage
 -----------
@@ -73,7 +74,7 @@ Bugs and Feature Requests
 Feature Requests
 ----------------
 
-* Add colour support
+None
 
 Known Bugs
 ----------
@@ -93,4 +94,4 @@ Written by Gem Newman. [Website](http://spurll.com) | [GitHub](https://github.co
 
 This work is licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/).
 
-Remember: [GitHub is not my CV.](https://blog.jcoglan.com/2013/11/15/why-github-is-not-your-cv/)
+Remember: [GitHub is not my CV](https://blog.jcoglan.com/2013/11/15/why-github-is-not-your-cv/).
