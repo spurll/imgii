@@ -53,14 +53,13 @@ image identifier beginning with `http://` or `https://` is assumed to be a URL.)
 If you're displaying the image in a light terminal with dark text (that is to
 say: if you're a monster), you may also want to pass `invert=True`.
 
-```python
->>> image = image_to_ascii('http://cdn-01.belfasttelegraph.co.uk/incoming/article31552045.ece/82fe0/ALTERNATES/w620/US%20Monkey%201550.jpg', invert=True, url=True)
-```
+Some basic ANSI colour support is also provided, but it's kind of hit-or-miss.
+Pass `color=True` to try it out.
 
 Here's the relevant function declaration:
 
 ```python
-image_to_ascii(image_file, width=80, scale=2, invert=False, url=False, chars=CHARS)
+image_to_ascii(image_file, width=80, scale=2, invert=False, url=False, chars=CHARS, color=False)
 ```
 
 Two character sets are available by default:
@@ -74,7 +73,7 @@ Bugs and Feature Requests
 Feature Requests
 ----------------
 
-None
+* Improve colour support with the extended colour space.
 
 Known Bugs
 ----------
