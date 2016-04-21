@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Written by Gem Newman. This work is licensed under the MIT License.
+# Written by Gem Newman. This work is licensed under the MPL2 License.
 
 
 import requests

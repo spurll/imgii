@@ -87,7 +87,7 @@ class Tests(unittest.TestCase):
         )
 
         self.assertEqual(
-            image_to_chars(FACE, width=5, scale=1, chars=BLOCKS),
+            image_to_ascii(FACE, width=5, scale=1, chars=BLOCKS),
             '\n'.join([
                 '     ',
                 ' █ █ ',
@@ -98,7 +98,7 @@ class Tests(unittest.TestCase):
         )
 
         self.assertEqual(
-            image_to_chars(GRADIENT, width=4, scale=1, chars=BLOCKS),
+            image_to_ascii(GRADIENT, width=4, scale=1, chars=BLOCKS),
             '\n'.join([
                 '██▓▒',
                 '█▓▒░',
