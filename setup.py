@@ -7,10 +7,10 @@ from setuptools import setup
 setup(
     name='imgii',
     packages=['imgii'],
-    version='0.3',
+    version='0.3.1',
     description='Very simple conversion of images to text.',
     url='https://github.com/spurll/imgii',
-    download_url='https://github.com/spurll/imgii/tarball/0.3',
+    download_url='https://github.com/spurll/imgii/tarball/0.3.1',
     author='Gem Newman',
     author_email='spurll@gmail.com',
     license='MPL2',

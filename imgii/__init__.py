@@ -4,14 +4,19 @@
 
 
 import requests
-from PIL import Image
+from shutil import get_terminal_size
 from argparse import ArgumentParser
+from PIL import Image
 from colorama import Fore
 
 
 CHARS = ' .-=;+*#@%'
 BLOCKS = ' ░▒▓█'
+DEFAULT_SCALE = 2
+DEFAULT_PIXELS_PER_CHAR = 8
 
+# Larger values bias toward white/grey, smaller toward more colour.
+PRIMACY_DIFF = 0.15
 COLOR_MAP = {
     (0, 0, 0): Fore.BLACK,
     (1, 0, 0): Fore.RED,
@@ -22,13 +27,11 @@ COLOR_MAP = {
     (0, 1, 1): Fore.CYAN,
     (1, 1, 1): Fore.WHITE,
 }
-# Larger values bias toward white/grey, smaller toward more colour.
-PRIMACY_DIFF = 0.15
 
 
 def image_to_ascii(
-    image_file, width=80, scale=2, invert=False, url=False, chars=CHARS,
-    color=False
+    image_file, output_width=None, console_width=None, scale=DEFAULT_SCALE,
+    invert=False, url=False, chars=CHARS, color=False
 ):
     n_chars = len(chars)
 
@@ -43,8 +46,8 @@ def image_to_ascii(
     # Load the image into Pillow, scale appropriately, convert to greyscale.
     with Image.open(image_file) as image:
         x, y = image.size
-        height = int(y * width / (x * scale))
-        image = image.resize((width, height))
+        dims = output_dimensions(x, y, scale, output_width, console_width)
+        image = image.resize(dims)
 
         # Get greyscale pixel values.
         pixels = image.convert('L').getdata()
@@ -56,7 +59,7 @@ def image_to_ascii(
 
     # Assign a character to represent each pixel.
     for i, pixel in enumerate(pixels):
-        if (i > 0) and (i % width == 0):
+        if (i > 0) and (i % dims[0] == 0):
             text.append('\n')
 
         index = int(pixel * n_chars / 256)
@@ -69,6 +72,17 @@ def image_to_ascii(
     if color: text.append(Fore.RESET)
 
     return ''.join(text)
+
+
+def output_dimensions(x, y, scale, output_width=None, console_width=None):
+    if not output_width:
+        if not console_width:
+            console_width = get_terminal_size()[0]
+        output_width = max(min(x // DEFAULT_PIXELS_PER_CHAR, console_width), 1)
+
+    output_height = max(int(y * output_width / (x * scale)), 1)
+
+    return (output_width, output_height)
 
 
 # Could perhaps be improved by using a blend of fore/back for ranges that fall
@@ -95,11 +109,10 @@ def ansi_color(rgb):
 def main():
     parser = ArgumentParser(description='Converts images to ASCII.')
     parser.add_argument('image', help='The filename or URL of the image.')
-    parser.add_argument('-w', '--width', help='The character output width.',
-                        type=int, default=80)
     parser.add_argument('-s', '--vertical-scale', help='The factor to use when'
                         ' scaling to account for rectangular ASCII characters.'
-                        ' Defaults to 2.', type=float, default=2)
+                        ' Defaults to {}.'.format(DEFAULT_SCALE), type=float,
+                        default=DEFAULT_SCALE)
     parser.add_argument('-u', '--url', help='Interpret IMAGE as a URL instead '
                         'of as a local file. (If this flag is omitted, imgii '
                         'will attempt to guess.)', action='store_true')
@@ -108,17 +121,28 @@ def main():
                         action='store_true')
     parser.add_argument('-c', '--color', help='Use ANSI colors.',
                         action='store_true')
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument('-a', '--chars', help='The character set to use, from '
-                       'darkest to lightest. Default: {}%'.format(CHARS),
-                       default=CHARS)
-    group.add_argument('-b', '--blocks', help='Use the following Unicode block'
-                       ' elements: {}'.format(BLOCKS), action='store_true')
+    width_group = parser.add_mutually_exclusive_group()
+    width_group.add_argument('-w', '--output-width', help='The output width, '
+                             'in characters. If not specified, imgii will '
+                             'attempt to guess based on image and console '
+                             'dimensions.', type=int, default=None)
+    width_group.add_argument('-d', '--console-width', help='The console width '
+                             'to use when guessing output dimensions. Defaults'
+                             ' to actual console width.', type=int,
+                             default=None)
+    char_group = parser.add_mutually_exclusive_group()
+    char_group.add_argument('-a', '--chars', help='The character set to use, '
+                            'from darkest to lightest. Default: {}%'
+                            .format(CHARS), default=CHARS)
+    char_group.add_argument('-b', '--blocks', help='Use the following Unicode '
+                            'block elements: {}'.format(BLOCKS),
+                            action='store_true')
     args = parser.parse_args()
 
     print(
         image_to_ascii(
-            args.image, args.width, args.vertical_scale, args.invert, args.url,
+            args.image, args.output_width, args.console_width,
+            args.vertical_scale, args.invert, args.url,
             args.chars if not args.blocks else BLOCKS, args.color
         )
     )

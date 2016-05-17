@@ -19,7 +19,7 @@ GRADIENT_INVERT = os.path.join(test_dir, 'gradient_invert.png')
 class Tests(unittest.TestCase):
     def test_basic(self):
         self.assertEqual(
-            image_to_ascii(FACE, width=5, scale=1),
+            image_to_ascii(FACE, output_width=5, scale=1),
             '\n'.join([
                 '     ',
                 ' % % ',
@@ -30,7 +30,7 @@ class Tests(unittest.TestCase):
         )
 
         self.assertEqual(
-            image_to_ascii(GRADIENT, width=4, scale=1),
+            image_to_ascii(GRADIENT, output_width=4, scale=1),
             '\n'.join([
                 '%@*+',
                 '@#+=',
@@ -42,7 +42,7 @@ class Tests(unittest.TestCase):
     def test_scale(self):
         # Scale the width/height of the image.
         self.assertEqual(
-            image_to_ascii(FACE, width=10, scale=1),
+            image_to_ascii(FACE, output_width=10, scale=1),
             '\n'.join([
                 '          ',
                 '          ',
@@ -59,7 +59,7 @@ class Tests(unittest.TestCase):
 
         # Scaling chars.
         self.assertEqual(
-            image_to_ascii(FACE, width=10, scale=2),
+            image_to_ascii(FACE, output_width=10, scale=2),
             '\n'.join([
                 '          ',
                 '  %%  %%  ',
@@ -71,13 +71,13 @@ class Tests(unittest.TestCase):
 
         # Default scale is 2, as text is typically twice as high as it is wide.
         self.assertEqual(
-            image_to_ascii(FACE, width=10, scale=2),
-            image_to_ascii(FACE, width=10)
+            image_to_ascii(FACE, output_width=10, scale=2),
+            image_to_ascii(FACE, output_width=10)
         )
 
     def test_custom_chars(self):
         self.assertEqual(
-            image_to_ascii(GRADIENT, width=4, scale=1, chars='12345'),
+            image_to_ascii(GRADIENT, output_width=4, scale=1, chars='12345'),
             '\n'.join([
                 '5543',
                 '5432',
@@ -87,7 +87,7 @@ class Tests(unittest.TestCase):
         )
 
         self.assertEqual(
-            image_to_ascii(FACE, width=5, scale=1, chars=BLOCKS),
+            image_to_ascii(FACE, output_width=5, scale=1, chars=BLOCKS),
             '\n'.join([
                 '     ',
                 ' █ █ ',
@@ -98,7 +98,7 @@ class Tests(unittest.TestCase):
         )
 
         self.assertEqual(
-            image_to_ascii(GRADIENT, width=4, scale=1, chars=BLOCKS),
+            image_to_ascii(GRADIENT, output_width=4, scale=1, chars=BLOCKS),
             '\n'.join([
                 '██▓▒',
                 '█▓▒░',
@@ -109,7 +109,7 @@ class Tests(unittest.TestCase):
 
     def test_invert(self):
         self.assertEqual(
-            image_to_ascii(FACE, width=5, scale=1, invert=True),
+            image_to_ascii(FACE, output_width=5, scale=1, invert=True),
             '%%%%%\n% % %\n%%%%%\n%   %\n%%%%%'
         )
 
