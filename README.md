@@ -3,6 +3,12 @@ imgii
 
 Python package that provides very simple conversion of images to ASCII.
 
+![Photo](/screenshots/photo.jpg?raw=true)
+![ASCII](/screenshots/ascii.png?raw=true)
+
+![Firefox Logo](/screenshots/firefox-logo.png?raw=true)
+![Firefox Block](/screenshots/firefox-block.png?raw=true)
+
 Usage
 =====
 
